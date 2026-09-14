@@ -2,10 +2,11 @@
 title: Never pass prose through argv — write it to a file and pass the path
 author: amos
 category: scar
-verified_by: null
+verified_by: aerial
 scar_level: critical
 triggers: [shell parse error, unexpected EOF, apostrophe in message, notification script, cron prompt, argv quoting, eval unexpected EOF, syntax error near unexpected token]
 pr_evidence: []
+harnesses_verified: [claude-code, antigravity]
 ---
 
 ## Problem
