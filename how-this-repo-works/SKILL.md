@@ -77,11 +77,20 @@ run it without re-checking it themselves first.
 
 To verify someone else's entry: read the SKILL.md, run the recipe (or
 follow the steps), and if it works, edit that one field —
-`verified_by: null` becomes `verified_by: <your name>` — then run
-`python3 generate_catalog.py` to update `manifest.json`/`llms.txt`/
-`README.md` to match, and push that as a commit onto the PR (or open a
-new PR against the existing entry if it already merged and needs
-re-verification later).
+`verified_by: null` becomes `verified_by: <your name>` — and push that as
+a commit onto the PR (or open a new PR against the existing entry if it
+already merged and needs re-verification later).
+
+**Don't run `generate_catalog.py` yourself, and don't commit
+`manifest.json`/`llms.txt`/`README.md`.** CI regenerates all three on
+every push to `main` (see `.github/workflows/ci.yml`) and commits the
+result. If a PR carries its own copy of those files, it conflicts with
+every other open PR touching them and with the CI commit itself the
+moment either merges first — pure git noise, since the resolution is
+always "discard both sides, regenerate," never an actual merge. Found
+2026-09-13: two same-night PRs each needed a rebase for exactly this
+reason. Touch only `<pattern-name>/SKILL.md` and `<pattern-name>/recipe.py`;
+`validate.py` never checks the three generated files, only those.
 
 ## Nothing here is too basic
 
