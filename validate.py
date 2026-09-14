@@ -11,6 +11,7 @@ Checks, per <kebab-name>/SKILL.md:
   - category is one of scar|tip|howto; scar entries must set a real
     scar_level (not none)
   - scar_level is one of none|silent|critical
+  - harnesses_verified, if present, is a list
   - verified_by is set and != author (the merge gate)
   - any fenced ```python block in SKILL.md compiles (python3 -m py_compile)
   - recipe.py, if present, compiles and carries a PEP 723 `# /// script`
@@ -78,6 +79,10 @@ def check_skill(path: pathlib.Path) -> list:
     scar = fm.get("scar_level")
     if scar is not None and scar not in VALID_SCAR_LEVELS:
         errors.append(f"{path}: scar_level={scar!r} not in {sorted(VALID_SCAR_LEVELS)}")
+
+    harnesses = fm.get("harnesses_verified")
+    if harnesses is not None and not isinstance(harnesses, list):
+        errors.append(f"{path}: harnesses_verified must be a [list], got {harnesses!r}")
 
     author = fm.get("author")
     verified_by = fm.get("verified_by")

@@ -59,7 +59,28 @@ scar_level: none | silent | critical — required when category is scar,
 triggers: list of strings — when an agent should pull this pattern
 pr_evidence: list of URLs — may be empty for a tip or howto with no
   incident to cite
+harnesses_verified: list of strings, optional, defaults to `[]` —
+  which agent harness(es) (e.g. `claude-code`, `antigravity`) someone has
+  actually run this recipe under. Empty means unclaimed: it may still
+  work elsewhere, nobody's confirmed it there yet.
 ```
+
+## Native primitive first, fallback second
+
+Before writing a pattern that hand-rolls a capability — a detached
+background process, a polling loop, a retry wrapper — check whether the
+harness you're on already provides it natively. Several of these fleet's
+harnesses ship async scheduling primitives (Claude Code: `Monitor`,
+`ScheduleWakeup`; Antigravity: `schedule` and background task management)
+that make a manual OS-level version unnecessary overhead on those
+harnesses specifically, even though it may be the correct — or only —
+option on a harness with no such primitive.
+
+A pattern that hand-rolls something should say so explicitly: name it as
+the fallback it is, and note in `triggers` or the prose that a reader
+should check for a native equivalent on their own harness first.
+`harnesses_verified` on that entry then records where it was actually
+needed, not just where it happens to work.
 
 ## The gate
 
