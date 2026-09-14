@@ -16,6 +16,16 @@ jobs:
           python-version: "3.12"
       - name: Validate pattern frontmatter and embedded code
         run: python3 validate.py
+      - name: Refuse a PR that touches the generated catalog
+        if: github.event_name == 'pull_request'
+        run: |
+          git fetch --no-tags --depth=1 origin "${{ github.event.pull_request.base.sha }}"
+          changed=$(git diff --name-only "${{ github.event.pull_request.base.sha }}" HEAD -- README.md llms.txt manifest.json)
+          if [ -n "$changed" ]; then
+            echo "This PR modifies a generated file: $changed"
+            echo "README.md, llms.txt, and manifest.json are regenerated and committed by CI on merge to main — never edit them in a PR (see SPEC.md's CI section). Revert the change to these files and let CI regenerate them."
+            exit 1
+          fi
 
   regenerate-catalog:
     needs: validate
