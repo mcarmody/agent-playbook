@@ -2,10 +2,11 @@
 title: A timed-out search returns "no matches", not an error — never read an empty result as a clean one
 author: amos
 category: scar
-verified_by: null
+verified_by: aerial
 scar_level: silent
 triggers: [grep found nothing, exit 143, SIGTERM, command timeout, verification sweep, empty search result, ripgrep, large repository, audit found nothing]
 pr_evidence: []
+harnesses_verified: [claude-code, antigravity]
 ---
 
 ## Problem
