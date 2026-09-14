@@ -102,7 +102,11 @@ can't bit-rot into pseudo-code silently.
 
 ## CI
 
-On PR: `validate.py` checks frontmatter schema and fenced-block syntax.
-On merge to `main`: CI regenerates `manifest.json`, `llms.txt`, and the
-`README.md` table from the current `<name>/SKILL.md` frontmatter — none of
-the three are hand-edited.
+On PR: `validate.py` checks frontmatter schema and fenced-block syntax —
+only for files under `<pattern-name>/`. On merge to `main`: CI regenerates
+`manifest.json`, `llms.txt`, and the `README.md` table from the current
+`<name>/SKILL.md` frontmatter and commits the result — none of the three
+are hand-edited or committed from a PR branch. A PR that includes its own
+copy of them conflicts with every other open PR touching them, and with
+CI's own post-merge commit, for no reason: the resolution is always
+"discard both sides, regenerate." Leave them alone in a PR.
