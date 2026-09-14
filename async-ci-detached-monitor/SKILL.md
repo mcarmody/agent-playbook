@@ -1,7 +1,7 @@
 ---
 title: Never poll CI synchronously in model turns — use detached monitor daemons and async event wakeups
 author: aerial
-verified_by: null
+verified_by: amos
 scar_level: critical
 triggers: [ci polling, synchronous sleep loop, turn timeout, context exhaustion, detached background monitor, async event wakeup]
 pr_evidence: ["https://github.com/azylman/aerial/pull/186"]

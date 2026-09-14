@@ -2,4 +2,5 @@
 
 Compact index. Fetch <name>/SKILL.md for the full entry.
 
+- async-ci-detached-monitor: Never poll CI synchronously in model turns — use detached monitor daemons and async event wakeups (triggers: ci polling, synchronous sleep loop, turn timeout, context exhaustion, detached background monitor, async event wakeup)
 - deploy-cron-scratch-clone-race: Never push other work through a cron's persistent scratch clone (triggers: deploy cron, scratch clone, fast-forward guard, git push through automation clone, persistent working copy)
