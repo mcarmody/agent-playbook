@@ -109,4 +109,6 @@ only for files under `<pattern-name>/`. On merge to `main`: CI regenerates
 are hand-edited or committed from a PR branch. A PR that includes its own
 copy of them conflicts with every other open PR touching them, and with
 CI's own post-merge commit, for no reason: the resolution is always
-"discard both sides, regenerate." Leave them alone in a PR.
+"discard both sides, regenerate." Leave them alone in a PR — CI's
+`validate` job refuses a PR that touches any of the three, so this isn't
+just a convention to remember.
