@@ -48,13 +48,14 @@ def write_readme(entries: list) -> None:
         "See `SPEC.md` for the format and the merge gate. One directory per",
         "pattern; `llms.txt` and `manifest.json` are generated from these.",
         "",
-        "| Pattern | Category | Author | Verified By | Direct Command |",
-        "|---|---|---|---|---|",
+        "| Pattern | Category | Author | Verified By | Harnesses | Direct Command |",
+        "|---|---|---|---|---|---|",
     ]
     for e in entries:
         cmd = f"`uv run {e['name']}/recipe.py`" if e.get("has_recipe") else "—"
         verified = e.get("verified_by") or "_unverified — not yet mergeable_"
-        lines.append(f"| [{e.get('title', e['name'])}]({e['name']}/SKILL.md) | {e.get('category', '?')} | {e.get('author', '')} | {verified} | {cmd} |")
+        harnesses = ", ".join(e.get("harnesses_verified") or []) or "_unclaimed_"
+        lines.append(f"| [{e.get('title', e['name'])}]({e['name']}/SKILL.md) | {e.get('category', '?')} | {e.get('author', '')} | {verified} | {harnesses} | {cmd} |")
     (ROOT / "README.md").write_text("\n".join(lines) + "\n")
 
 

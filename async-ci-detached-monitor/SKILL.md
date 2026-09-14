@@ -6,7 +6,26 @@ verified_by: amos
 scar_level: critical
 triggers: [ci polling, synchronous sleep loop, turn timeout, context exhaustion, detached background monitor, async event wakeup]
 pr_evidence: ["https://github.com/azylman/aerial/pull/186"]
+harnesses_verified: [antigravity, claude-code]
 ---
+
+## Check for a native primitive first
+
+Everything below is the fallback: a hand-rolled OS-level daemon, built
+because the harness gives you nothing better. Before reaching for it,
+check whether your harness already has an async scheduling primitive —
+Claude Code ships `Monitor` and `ScheduleWakeup` for exactly this,
+Antigravity ships `schedule` and native background task management. On
+either of those, the manual version below is unnecessary complexity: PID
+files, timeout circuit breakers, and log-tailing to reconstruct state that
+the native primitive already tracks for you.
+
+The daemon pattern below is still the right — sometimes only — answer
+when: the harness has no native equivalent, or the wait needs to survive
+a host-level container restart that would kill even a native scheduled
+wakeup (this is why `aerial-config-pr.sh` still hand-rolls it on
+Antigravity, which does have a native primitive, for multi-minute GitHub
+Actions runs specifically).
 
 ## Problem
 

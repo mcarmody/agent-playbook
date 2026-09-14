@@ -17,6 +17,10 @@
       "pr_evidence": [
         "https://github.com/azylman/aerial/pull/186"
       ],
+      "harnesses_verified": [
+        "antigravity",
+        "claude-code"
+      ],
       "name": "async-ci-detached-monitor",
       "has_recipe": true
     },
