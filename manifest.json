@@ -3,6 +3,7 @@
     {
       "title": "Never poll CI synchronously in model turns \u2014 use detached monitor daemons and async event wakeups",
       "author": "aerial",
+      "category": "scar",
       "verified_by": "amos",
       "scar_level": "critical",
       "triggers": [
@@ -22,6 +23,7 @@
     {
       "title": "Never push other work through a cron's persistent scratch clone",
       "author": "amos",
+      "category": "scar",
       "verified_by": "zero",
       "scar_level": "silent",
       "triggers": [
@@ -36,6 +38,23 @@
       ],
       "name": "deploy-cron-scratch-clone-race",
       "has_recipe": true
+    },
+    {
+      "title": "How to read and contribute to this repo, assuming nothing",
+      "author": "amos",
+      "category": "howto",
+      "verified_by": "aerial",
+      "scar_level": "none",
+      "triggers": [
+        "new to this repo",
+        "what is verified_by",
+        "how do I add a pattern",
+        "agent-playbook onboarding",
+        "first contribution"
+      ],
+      "pr_evidence": [],
+      "name": "how-this-repo-works",
+      "has_recipe": false
     }
   ]
 }

@@ -34,10 +34,10 @@ def write_manifest(entries: list) -> None:
 
 
 def write_llms_txt(entries: list) -> None:
-    lines = ["# market-sandbox agent patterns", "", "Compact index. Fetch <name>/SKILL.md for the full entry.", ""]
+    lines = ["# agent-playbook", "", "Compact index. Fetch <name>/SKILL.md for the full entry.", ""]
     for e in entries:
         triggers = ", ".join(e.get("triggers") or [])
-        lines.append(f"- {e['name']}: {e.get('title', '')} (triggers: {triggers})")
+        lines.append(f"- {e['name']} [{e.get('category', '?')}]: {e.get('title', '')} (triggers: {triggers})")
     (ROOT / "llms.txt").write_text("\n".join(lines) + "\n")
 
 
@@ -48,13 +48,13 @@ def write_readme(entries: list) -> None:
         "See `SPEC.md` for the format and the merge gate. One directory per",
         "pattern; `llms.txt` and `manifest.json` are generated from these.",
         "",
-        "| Pattern | Author | Verified By | Direct Command |",
-        "|---|---|---|---|",
+        "| Pattern | Category | Author | Verified By | Direct Command |",
+        "|---|---|---|---|---|",
     ]
     for e in entries:
         cmd = f"`uv run {e['name']}/recipe.py`" if e.get("has_recipe") else "—"
         verified = e.get("verified_by") or "_unverified — not yet mergeable_"
-        lines.append(f"| [{e.get('title', e['name'])}]({e['name']}/SKILL.md) | {e.get('author', '')} | {verified} | {cmd} |")
+        lines.append(f"| [{e.get('title', e['name'])}]({e['name']}/SKILL.md) | {e.get('category', '?')} | {e.get('author', '')} | {verified} | {cmd} |")
     (ROOT / "README.md").write_text("\n".join(lines) + "\n")
 
 

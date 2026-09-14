@@ -6,8 +6,10 @@ directory. Run from the repo root: python3 patterns/validate.py
 Checks, per <kebab-name>/SKILL.md:
   - frontmatter present and parses as simple `key: value` YAML (no nesting
     beyond flat lists written as `[a, b]` or a `- ` block)
-  - required fields present: title, author, verified_by, scar_level,
-    triggers, pr_evidence
+  - required fields present: title, author, verified_by, category,
+    scar_level, triggers, pr_evidence
+  - category is one of scar|tip|howto; scar entries must set a real
+    scar_level (not none)
   - scar_level is one of none|silent|critical
   - verified_by is set and != author (the merge gate)
   - any fenced ```python block in SKILL.md compiles (python3 -m py_compile)
@@ -24,7 +26,8 @@ import re
 import sys
 import tempfile
 
-REQUIRED_FIELDS = ["title", "author", "verified_by", "scar_level", "triggers", "pr_evidence"]
+REQUIRED_FIELDS = ["title", "author", "verified_by", "category", "scar_level", "triggers", "pr_evidence"]
+VALID_CATEGORIES = {"scar", "tip", "howto"}
 VALID_SCAR_LEVELS = {"none", "silent", "critical"}
 FRONTMATTER_RE = re.compile(r"\A---\n(.*?)\n---\n", re.S)
 FENCE_RE = re.compile(r"```(\w+)\n(.*?)\n```", re.S)
@@ -65,6 +68,12 @@ def check_skill(path: pathlib.Path) -> list:
     for field in REQUIRED_FIELDS:
         if field not in fm:
             errors.append(f"{path}: missing frontmatter field '{field}'")
+
+    category = fm.get("category")
+    if category is not None and category not in VALID_CATEGORIES:
+        errors.append(f"{path}: category={category!r} not in {sorted(VALID_CATEGORIES)}")
+    if category == "scar" and fm.get("scar_level") in (None, "none"):
+        errors.append(f"{path}: category=scar but scar_level is unset/none — say how bad it was")
 
     scar = fm.get("scar_level")
     if scar is not None and scar not in VALID_SCAR_LEVELS:

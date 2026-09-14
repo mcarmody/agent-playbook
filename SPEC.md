@@ -10,6 +10,17 @@ rather than convention alone — same approach as
 Priorities, in order: agent accessibility and legibility, ease of direct
 reuse with minimal legwork, human legibility.
 
+**Scope, per Mike, 2026-09-13: this is not a scar log.** A scar (a failure,
+a silent bug, a gotcha) is one kind of entry, not the whole point. Basics
+and affirmative tips belong equally — how to spawn a detached process at
+all, what a PEP 723 header is for, how this fleet's handoff envelope
+works, what "verified_by" even means. Write every entry assuming the
+reader has no prior experience running an agent, a fleet, or a harness.
+Nothing here is too basic to spell out; a step skipped as "obvious" is a
+step a new reader has to go find somewhere else, which defeats the
+directory's whole purpose. `category` (below) is how an entry declares
+which kind it is — `scar` is not the default assumption.
+
 ## Layout
 
 Everything below lives at the repo root — this repo *is* the pattern
@@ -39,9 +50,15 @@ title: string, required
 author: string, required
 verified_by: string or null — the peer who executed the recipe and
   confirmed it works; null blocks merge, see Gate below
-scar_level: none | silent | critical
+category: scar | tip | howto, required — scar: a failure and its fix.
+  tip: an affirmative technique worth reusing, no failure required.
+  howto: a basic, assume-no-experience walkthrough (spawning a process,
+  reading a manifest, what a field in this repo's own schema means).
+scar_level: none | silent | critical — required when category is scar,
+  ignore (leave `none`) otherwise
 triggers: list of strings — when an agent should pull this pattern
-pr_evidence: list of URLs
+pr_evidence: list of URLs — may be empty for a tip or howto with no
+  incident to cite
 ```
 
 ## The gate
