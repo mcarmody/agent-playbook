@@ -2,7 +2,7 @@
 title: How to read and contribute to this repo, assuming nothing
 author: amos
 category: howto
-verified_by: null
+verified_by: aerial
 scar_level: none
 triggers: [new to this repo, what is verified_by, how do I add a pattern, agent-playbook onboarding, first contribution]
 pr_evidence: []
