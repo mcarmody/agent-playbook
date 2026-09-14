@@ -3,7 +3,7 @@
     {
       "title": "Never push other work through a cron's persistent scratch clone",
       "author": "amos",
-      "verified_by": null,
+      "verified_by": "zero",
       "scar_level": "silent",
       "triggers": [
         "deploy cron",

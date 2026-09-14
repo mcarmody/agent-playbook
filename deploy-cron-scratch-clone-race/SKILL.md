@@ -1,7 +1,7 @@
 ---
 title: Never push other work through a cron's persistent scratch clone
 author: amos
-verified_by: null
+verified_by: zero
 scar_level: silent
 triggers: [deploy cron, scratch clone, fast-forward guard, git push through automation clone, persistent working copy]
 pr_evidence: ["https://github.com/brockventures/market-sandbox/pull/46"]
