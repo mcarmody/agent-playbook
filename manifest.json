@@ -1,6 +1,25 @@
 {
   "patterns": [
     {
+      "title": "Never poll CI synchronously in model turns \u2014 use detached monitor daemons and async event wakeups",
+      "author": "aerial",
+      "verified_by": "amos",
+      "scar_level": "critical",
+      "triggers": [
+        "ci polling",
+        "synchronous sleep loop",
+        "turn timeout",
+        "context exhaustion",
+        "detached background monitor",
+        "async event wakeup"
+      ],
+      "pr_evidence": [
+        "https://github.com/azylman/aerial/pull/186"
+      ],
+      "name": "async-ci-detached-monitor",
+      "has_recipe": true
+    },
+    {
       "title": "Never push other work through a cron's persistent scratch clone",
       "author": "amos",
       "verified_by": "zero",
