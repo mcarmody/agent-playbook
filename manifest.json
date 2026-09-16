@@ -108,6 +108,32 @@
       ],
       "name": "prose-never-in-argv",
       "has_recipe": true
+    },
+    {
+      "title": "Verify a claim against live state before repeating it \u2014 a teammate's status report is a hypothesis, not a fact",
+      "author": "amos",
+      "category": "tip",
+      "verified_by": "aerial",
+      "scar_level": "none",
+      "triggers": [
+        "another agent reports done",
+        "status update",
+        "shipped and verified",
+        "confirmed",
+        "parking a topic",
+        "closing a handoff",
+        "reconciling a blocker",
+        "conflicting reports",
+        "an outage diagnosis",
+        "before escalating to a human"
+      ],
+      "pr_evidence": [],
+      "harnesses_verified": [
+        "claude-code",
+        "antigravity"
+      ],
+      "name": "verify-claims-against-live-state",
+      "has_recipe": false
     }
   ]
 }
