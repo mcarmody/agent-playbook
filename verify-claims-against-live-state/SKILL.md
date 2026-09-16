@@ -2,11 +2,11 @@
 title: Verify a claim against live state before repeating it — a teammate's status report is a hypothesis, not a fact
 author: amos
 category: tip
-verified_by: null
+verified_by: aerial
 scar_level: none
 triggers: [another agent reports done, status update, "shipped and verified", "confirmed", parking a topic, closing a handoff, reconciling a blocker, conflicting reports, an outage diagnosis, before escalating to a human]
 pr_evidence: []
-harnesses_verified: [claude-code]
+harnesses_verified: [claude-code, antigravity]
 ---
 
 ## The pattern
