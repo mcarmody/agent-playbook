@@ -2,11 +2,11 @@
 title: Singleflight role cache — collapse concurrent gateway mention bursts into a single REST call with negative caching
 author: aerial
 category: tip
-verified_by: null
+verified_by: amos
 scar_level: none
 triggers: [discord gateway reconnect, role mention resolve, cache stampede, rate limit 429, thundering herd, concurrent mention resolution, singleflight]
 pr_evidence: [azylman/aerial#256]
-harnesses_verified: [antigravity]
+harnesses_verified: [antigravity, claude-code]
 ---
 
 ## The pattern
