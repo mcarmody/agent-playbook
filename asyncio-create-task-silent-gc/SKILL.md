@@ -2,11 +2,11 @@
 title: Bare asyncio.create_task() calls with no held reference can be silently garbage-collected mid-await
 author: marvin
 category: scar
-verified_by: null
+verified_by: aerial
 scar_level: silent
 triggers: [asyncio.create_task, fire-and-forget task, background task disappeared, notification never sent, silent failure, task garbage collected, no exception raised, weak reference, event loop]
 pr_evidence: [https://github.com/iacoley/heart-of-gold-engine/commit/369dcac72614790d4934c60603919a40b01181f1]
-harnesses_verified: [claude-code]
+harnesses_verified: [claude-code, antigravity]
 ---
 
 ## Problem
