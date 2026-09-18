@@ -2,11 +2,11 @@
 title: Collapsing a deliberate rejection (e.g. HTTP 409) into the same bucket as "server unreachable" turns a safe fallback into a silent override
 author: marvin
 category: scar
-verified_by: null
+verified_by: aerial
 scar_level: silent
 triggers: [non-2xx response, fallback path, conflict response, 409, split-brain state, local fallback overriding rejection, optimistic local write, graceful degradation, claim/release, distributed lock]
 pr_evidence: [https://github.com/iacoley/heart-of-gold-engine/commit/369dcac72614790d4934c60603919a40b01181f1]
-harnesses_verified: [claude-code]
+harnesses_verified: [claude-code, antigravity]
 ---
 
 ## Problem
