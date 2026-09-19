@@ -2,9 +2,12 @@
 # requires-python = ">=3.9"
 # dependencies = []
 # ///
-"""Show that a bare asyncio.create_task() with no held reference can vanish
-before it ever runs — and that holding a strong reference (the `spawn()`
-pattern) fixes it deterministically, not just "usually".
+"""Illustrates the asyncio.create_task() silent-GC pattern and its fix —
+NOT a live reproduction of the loss. See SKILL.md's correction: under
+vanilla CPython, a task awaiting a real primitive (asyncio.sleep, a
+Future) stays reference-reachable via the loop's own scheduling structures
+the whole time, so this script currently completes 20/20 on BOTH the bare
+and spawn() paths, run after run (verified 2500+ trials, 0 losses).
 
     uv run asyncio-create-task-silent-gc/recipe.py
     python3 asyncio-create-task-silent-gc/recipe.py
@@ -12,12 +15,11 @@ pattern) fixes it deterministically, not just "usually".
 Two runs over the same 20 fire-and-forget jobs: one with a bare
 `asyncio.create_task(...)` call whose return value is discarded, one
 routed through `spawn()`, which stashes the task in a module-level set and
-drops it via `add_done_callback` once it finishes. Under CPython, a `Task`
-with no strong reference anywhere is only weakly held by the event loop —
-the moment nothing else points to it, reference counting collects it,
-often before it has run even once. This is not a rare GC-timing fluke: it
-reproduces every run under CPython, which is exactly why it's dangerous —
-it happens the same way in production as it does here.
+drops it via `add_done_callback` once it finishes. The real-world bug this
+documents is genuine (see SKILL.md's pr_evidence) and the fix (spawn())
+is correct regardless — but this synthetic script does not force the
+narrow race window (before a task's first `await` registers any callback)
+that would make the loss happen on demand.
 """
 
 import asyncio
@@ -70,15 +72,19 @@ async def main() -> None:
     assert len(fixed_results) == n_jobs, "spawn() should never lose a task"
     if len(broken_results) == n_jobs:
         print(
-            "\nNote: this particular run's timing happened not to lose any "
-            "bare tasks — rerun a few times, or see the real incident this "
-            "is from (pr_evidence in SKILL.md). The fix is correct "
-            "regardless of whether any one run reproduces the loss."
+            "\nExpected on vanilla CPython: job() awaits a real primitive "
+            "(asyncio.sleep), which keeps the task reference-reachable via "
+            "the loop's own scheduling structures the whole time, so this "
+            "recipe does not currently trigger the loss (see SKILL.md's "
+            "correction). The real incident it documents (pr_evidence) is "
+            "genuine; spawn() is still the correct fix regardless."
         )
     else:
         print(
             f"\n{n_jobs - len(broken_results)} bare-task job(s) vanished "
-            "with no exception, no log line, nothing. That's the bug."
+            "with no exception, no log line, nothing. That's the bug — "
+            "if you're seeing this, you've found conditions that trigger "
+            "it; worth reporting back to this entry."
         )
 
 

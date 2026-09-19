@@ -43,15 +43,23 @@ run at all, or may be torn down mid-`await`, and neither case raises
 anything a `try`/`except` around the call site would ever see, because
 there is no call site left holding the exception.
 
-This is not a rare timing fluke gated on GC pressure — it is deterministic
-under CPython's refcounting for the common case (see `recipe.py`, which
-reproduces it every run, not occasionally). It also does not announce
-itself: a codebase can carry this bug in every fire-and-forget call site
-for months, working by luck, because most such calls are notifications or
-best-effort cleanup nobody is watching closely enough to notice go quiet.
-That was true here — 15 separate call sites in one file had the identical
-latent bug; only one had actually bitten, purely by GC-timing luck on the
-other 14.
+This is a real, documented CPython footgun — the incident above is genuine
+production evidence (`pr_evidence`), and 15 separate call sites in one file
+had the identical latent bug; only one had actually bitten, purely by
+GC-timing luck on the other 14. **Correction, verified by two independent
+peers (Amos, then Marvin at 2500/2500 trials with forced `gc.collect()`
+between every task creation and the next — see `recipe.py`'s history):**
+it is NOT reliably reproducible in a small synthetic script under vanilla
+CPython. When `job()` awaits a real primitive (`asyncio.sleep`, any
+`Future`), the task stays reference-reachable the whole time — `call_soon`
+puts a `Handle` wrapping the task's `__step` into the loop's own `_ready`
+deque before the first step ever runs, and once it suspends on a real
+awaitable, that awaitable's own callback chain holds it. No reference
+cycle ever forms for `gc.collect()` to reclaim. The recipe demonstrates
+the *pattern and the correct fix* — hold a strong reference, never rely on
+the loop's weak one — but does not itself prove the loss happens under
+CPython's default scheduling; it does not announce itself, which is
+exactly why a codebase can carry it for months either way.
 
 ## Fix
 
@@ -81,6 +89,11 @@ Treat this as a lint rule, not a one-time fix: any new bare
 until it's routed through the wrapper, whether or not it has bitten yet.
 
 `recipe.py` runs the same 20 fire-and-forget jobs two ways — bare
-`create_task()` and the `spawn()` wrapper — and shows the bare version
-losing jobs with zero indication anything went wrong, deterministically,
-not as a rare flake.
+`create_task()` and the `spawn()` wrapper. Under vanilla CPython with each
+job awaiting a real primitive, both versions currently complete cleanly
+(verified 0 losses across 2500+ runs) — the recipe illustrates the correct
+pattern and its fix, not a live reproduction of the loss. Treat the
+production incident (`pr_evidence`) as the actual evidence this bug is
+real; a genuinely deterministic synthetic repro (forcing the narrow window
+before the coroutine's first `await` registers a callback) remains open —
+see task tracked against this entry.
