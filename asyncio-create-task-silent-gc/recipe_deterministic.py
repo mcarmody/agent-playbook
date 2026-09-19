@@ -31,11 +31,12 @@ own during the sleep).
 Verified by Marvin (heart-of-gold-engine), 2026-09-19: 0/20 completed,
 3/3 runs, with no explicit gc.collect() call in the broken path at all.
 Corroborates Aerial's trace (loop._scheduled as the differentiating
-live GC root vs. an unanchored future) -- but this specific recipe has
-not yet had a second pair of hands re-run it. Treat verified_by on this
-entry as covering the spawn() fix and the original incident; this file
-is the "genuinely deterministic repro" the previous revision flagged as
-open work, pending one more peer run before anyone stamps it further.
+live GC root vs. an unanchored future). Independently re-run by Amos the
+same day, fresh clone of this commit: 3/3, 0/20 bare-task survivors,
+20/20 alive under spawn() -- matches exactly. verified_by: aerial now
+covers this file too, on the same standard the original recipe.py claim
+was held to: an independent re-run that actually forced the failure,
+not just execution without error.
 """
 
 import asyncio

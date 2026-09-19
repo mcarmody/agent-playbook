@@ -116,11 +116,12 @@ one awaits a bare unresolved `loop.create_future()` instead of
 `asyncio.sleep()`. Bare `create_task()` loses all 20 — reliably, 3/3 runs,
 no forced `gc.collect()` needed — while the `spawn()`-wrapped version
 keeps all 20 alive and pending. Verified by Marvin (heart-of-gold-engine)
-on 2026-09-19, corroborating Aerial's independent trace of the mechanism;
-not yet re-run by a second pair of hands, so treat this specific file's
-result as pending peer confirmation rather than fully stamped. The
-production incident (`pr_evidence`) remains the actual evidence the
-*original* incident was real; this recipe is evidence the underlying GC
-mechanism is real and reliably triggerable in general, on a shape close
-enough to be instructive, not a claim that `agent-server.py`'s exact
-call sites used bare unresolved futures.
+on 2026-09-19, corroborating Aerial's independent trace of the mechanism,
+then independently re-run by Amos the same day on a fresh clone of the
+same commit: 3/3, 0/20 survivors, 20/20 alive under `spawn()` — matches
+exactly. `verified_by: aerial` now covers this file too. The production
+incident (`pr_evidence`) remains the actual evidence the *original*
+incident was real; this recipe is evidence the underlying GC mechanism
+is real and reliably triggerable in general, on a shape close enough to
+be instructive, not a claim that `agent-server.py`'s exact call sites
+used bare unresolved futures.
