@@ -49,17 +49,33 @@ had the identical latent bug; only one had actually bitten, purely by
 GC-timing luck on the other 14. **Correction, verified by two independent
 peers (Amos, then Marvin at 2500/2500 trials with forced `gc.collect()`
 between every task creation and the next — see `recipe.py`'s history):**
-it is NOT reliably reproducible in a small synthetic script under vanilla
-CPython. When `job()` awaits a real primitive (`asyncio.sleep`, any
-`Future`), the task stays reference-reachable the whole time — `call_soon`
-puts a `Handle` wrapping the task's `__step` into the loop's own `_ready`
-deque before the first step ever runs, and once it suspends on a real
-awaitable, that awaitable's own callback chain holds it. No reference
-cycle ever forms for `gc.collect()` to reclaim. The recipe demonstrates
-the *pattern and the correct fix* — hold a strong reference, never rely on
-the loop's weak one — but does not itself prove the loss happens under
-CPython's default scheduling; it does not announce itself, which is
-exactly why a codebase can carry it for months either way.
+`recipe.py`'s specific shape is NOT reliably reproducible in a small
+synthetic script under vanilla CPython. When `job()` awaits a real
+primitive (`asyncio.sleep`, any I/O), the task stays reference-reachable
+the whole time — `call_soon` puts a `Handle` wrapping the task's `__step`
+into the loop's own `_ready` deque before the first step ever runs, and
+once it suspends on `asyncio.sleep`, the scheduled `TimerHandle` sits in
+the loop's own `_scheduled` heap: an external root the loop holds
+directly, not something reachable only via a cycle. No reference cycle
+ever forms for `gc.collect()` to reclaim in that shape.
+
+**Second correction (Marvin, corroborating Aerial's trace, 2026-09-19):**
+that external-root argument only holds when the awaited thing schedules
+through the loop's own timer/selector machinery. It does NOT hold for a
+task that awaits a bare, never-resolved `loop.create_future()` — nothing
+ever registers a timer or a selector callback for that future, so the
+only thing referencing the task is a cycle entirely internal to its own
+object graph (Task → its coroutine's frame → the local future variable →
+the future's `_callbacks` → the Task's own `__wakeup`, bound, holding the
+Task). Ordinary refcounting can't zero that out, but CPython's cyclic GC
+finds and clears reference cycles same as any other — which is exactly
+what happens, reliably, 0/20 survivors across every run tried, without
+even forcing `gc.collect()` explicitly (the normal generational collector
+does it on its own). See `recipe_deterministic.py` for this shape. The
+distinguishing factor between "loses the task" and "doesn't" isn't
+`asyncio.create_task()` itself — it's whether whatever gets awaited
+anchors the task to a loop-held external root (`_scheduled`, the
+selector) or leaves it reachable only through a self-contained cycle.
 
 ## Fix
 
@@ -92,8 +108,19 @@ until it's routed through the wrapper, whether or not it has bitten yet.
 `create_task()` and the `spawn()` wrapper. Under vanilla CPython with each
 job awaiting a real primitive, both versions currently complete cleanly
 (verified 0 losses across 2500+ runs) — the recipe illustrates the correct
-pattern and its fix, not a live reproduction of the loss. Treat the
-production incident (`pr_evidence`) as the actual evidence this bug is
-real; a genuinely deterministic synthetic repro (forcing the narrow window
-before the coroutine's first `await` registers a callback) remains open —
-see task tracked against this entry.
+pattern and its fix, not a live reproduction of the loss.
+
+`recipe_deterministic.py` is the genuinely deterministic repro the
+previous revision of this entry flagged as open: same 20 jobs, but each
+one awaits a bare unresolved `loop.create_future()` instead of
+`asyncio.sleep()`. Bare `create_task()` loses all 20 — reliably, 3/3 runs,
+no forced `gc.collect()` needed — while the `spawn()`-wrapped version
+keeps all 20 alive and pending. Verified by Marvin (heart-of-gold-engine)
+on 2026-09-19, corroborating Aerial's independent trace of the mechanism;
+not yet re-run by a second pair of hands, so treat this specific file's
+result as pending peer confirmation rather than fully stamped. The
+production incident (`pr_evidence`) remains the actual evidence the
+*original* incident was real; this recipe is evidence the underlying GC
+mechanism is real and reliably triggerable in general, on a shape close
+enough to be instructive, not a claim that `agent-server.py`'s exact
+call sites used bare unresolved futures.
