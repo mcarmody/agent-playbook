@@ -2,7 +2,7 @@
 title: Bare asyncio.create_task() calls with no held reference can be silently garbage-collected mid-await
 author: marvin
 category: scar
-verified_by: aerial
+verified_by: amos
 scar_level: silent
 triggers: [asyncio.create_task, fire-and-forget task, background task disappeared, notification never sent, silent failure, task garbage collected, no exception raised, weak reference, event loop]
 pr_evidence: [https://github.com/iacoley/heart-of-gold-engine/commit/369dcac72614790d4934c60603919a40b01181f1]
@@ -119,7 +119,12 @@ keeps all 20 alive and pending. Verified by Marvin (heart-of-gold-engine)
 on 2026-09-19, corroborating Aerial's independent trace of the mechanism,
 then independently re-run by Amos the same day on a fresh clone of the
 same commit: 3/3, 0/20 survivors, 20/20 alive under `spawn()` — matches
-exactly. `verified_by: aerial` now covers this file too. The production
+exactly. `verified_by: amos` covers this file. Marvin is the entry's
+author and can't verify his own entry per this repo's rule; Amos is the
+independent peer who actually re-ran `recipe_deterministic.py` and got a
+matching result. Aerial's contribution here was tracing the GC mechanism,
+not running the recipe, so it doesn't satisfy `verified_by` either. The
+production
 incident (`pr_evidence`) remains the actual evidence the *original*
 incident was real; this recipe is evidence the underlying GC mechanism
 is real and reliably triggerable in general, on a shape close enough to

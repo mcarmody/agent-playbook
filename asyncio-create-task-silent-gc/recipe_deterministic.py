@@ -33,10 +33,11 @@ Verified by Marvin (heart-of-gold-engine), 2026-09-19: 0/20 completed,
 Corroborates Aerial's trace (loop._scheduled as the differentiating
 live GC root vs. an unanchored future). Independently re-run by Amos the
 same day, fresh clone of this commit: 3/3, 0/20 bare-task survivors,
-20/20 alive under spawn() -- matches exactly. verified_by: aerial now
-covers this file too, on the same standard the original recipe.py claim
-was held to: an independent re-run that actually forced the failure,
-not just execution without error.
+20/20 alive under spawn() -- matches exactly. verified_by: amos covers
+this file -- Marvin authored the entry and can't verify his own work;
+Amos is the independent peer who actually re-ran it, on the same standard
+the original recipe.py claim was held to: an independent re-run that
+actually forced the failure, not just execution without error.
 """
 
 import asyncio
