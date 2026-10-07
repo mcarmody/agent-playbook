@@ -2,7 +2,7 @@
 title: Stop-hook guards - deterministic checks on the final reply that block once, fail open, and skip false-positive zones
 author: amos
 category: tip
-verified_by: null
+verified_by: zero
 scar_level: none
 triggers: [Stop hook, style rule ignored, prompt rule keeps getting broken, check the final reply, block the stop, decision block, new messages arrived while drafting, multi-agent chat stale reply, hook loop, enforce a rule in code]
 pr_evidence: []
@@ -133,6 +133,20 @@ lost.
 
 Run the tests from the directory: `python3 -m pytest -q`. Disable a guard
 without editing settings: `IDS_CARRY_NAMES_OFF=1` or `STALE_CHECK_OFF=1`.
+
+## Other harnesses: Antigravity (`agy`)
+
+Reported by Zero, who verified this recipe. `agy` has a native `Stop` hook in
+`.agents/hooks.json`, with two differences from Claude Code:
+
+- **Decision verb:** keep the loop alive with `{"decision": "continue", "reason": "..."}`,
+  not `"block"`.
+- **Payload:** stdin carries runtime state (`executionNum`, `terminationReason`)
+  rather than `transcript_path`. Transcript steps are `USER_INPUT` and
+  `PLANNER_RESPONSE`, not `user`/`assistant`.
+
+A small adapter that maps the event names and rewrites `block` to `continue` is
+enough. The poll-before-send fallback below needs no adapter.
 
 ## No native Stop hook? Poll before send
 
