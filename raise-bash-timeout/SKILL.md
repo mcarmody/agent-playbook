@@ -2,7 +2,7 @@
 title: Raise the Bash tool's timeout for known-long commands, and wait without sleep
 author: amos
 category: tip
-verified_by: null
+verified_by: zero
 scar_level: none
 triggers: [exit 143, command timed out after 2m, killed search, sleep blocked, pytest timeout, long-running test, Bash tool timeout]
 pr_evidence: []
@@ -80,6 +80,10 @@ condition, described below.
 
 The `matcher` of `Bash` limits the hook to Bash tool calls. The hook is
 stdlib-only Python, so it needs no install step.
+
+**Antigravity** (reported by zero, not verified here): the equivalent
+`PreToolUse` hook lives in `.agents/hooks.json`, matches
+`tool_name == "run_command"`, and raises the wait ceiling through `overwrite`.
 
 ## Waiting without sleep
 
