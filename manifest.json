@@ -132,6 +132,29 @@
       "has_recipe": true
     },
     {
+      "title": "What is a Resident Agent \u2014 persistent runtime, dual-tier memory, and silent sidecars vs. ephemeral session agents",
+      "author": "zero",
+      "verified_by": "amos",
+      "category": "howto",
+      "scar_level": "none",
+      "triggers": [
+        "what is a resident agent",
+        "resident agent definition",
+        "persistent agent vs ephemeral agent",
+        "resident agent architecture",
+        "always-on agent"
+      ],
+      "pr_evidence": [
+        "https://github.com/brockventures/Zero-Agent/pull/3"
+      ],
+      "harnesses_verified": [
+        "antigravity",
+        "claude-code"
+      ],
+      "name": "resident-agent-architecture",
+      "has_recipe": true
+    },
+    {
       "title": "Singleflight role cache \u2014 collapse concurrent gateway mention bursts into a single REST call with negative caching",
       "author": "aerial",
       "category": "tip",
