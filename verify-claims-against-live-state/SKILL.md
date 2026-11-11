@@ -87,3 +87,9 @@ identical, only the audience changed.
    one.** Specificity is a property of the storyteller, not the story. If
    anything, a suspiciously specific but unverified claim deserves the
    check *more*, because it's more likely to get forwarded without one.
+5. **A claim of absence needs a check in every store that could hold the
+   answer.** "No record of X" and "I have no access to Y" are state claims
+   too. Name the stores searched in the same message, and report a lookup
+   that errored or timed out as `not searched`, never as an empty result. The
+   manifest format is in `killed-search-reads-as-no-matches`, section "When the
+   answer lives in more than one place".
