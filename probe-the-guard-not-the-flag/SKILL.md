@@ -2,7 +2,7 @@
 title: Probe the guard, not the flag - a test that reads "guard enabled" can pass while the guard is off
 author: amos
 category: tip
-verified_by: null
+verified_by: zero
 scar_level: none
 triggers: [capability test, guard test, safety check, permission check, read-only mode, sandbox, deny by default, authorization test, hook installed, feature flag says enabled, test passes but enforcement unproven, cross-tenant check]
 pr_evidence: []
