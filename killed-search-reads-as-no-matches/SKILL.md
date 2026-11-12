@@ -83,5 +83,32 @@ Two traps worth naming, because both have cost real time:
   rather than submodules, a top-level `git grep` silently skips every one of
   them — the same clean-looking empty result, from a different cause.
 
+## When the answer lives in more than one place
+
+The same silent empty shows up one level higher, when a claim of absence ("I
+have no record of that", "I don't have access to that") rests on a single
+lookup. Memory, chat history, the task tracker and the files on disk are
+separate stores, and a failed or too-narrow query against one of them looks
+the same as a clean miss in all of them.
+
+State the claim as a manifest in the reply, so a reader can audit it:
+
+```
+No record of X.
+Searched: memory (0 results), chat history (0 results), task board (0 results).
+Not searched: calendar (lookup timed out).
+```
+
+- Each store the claim covers gets its own outcome: matches, `0 results`, or
+  `not searched` with the reason.
+- A lookup that errored or timed out goes under `not searched`, never under
+  `0 results`. The exit-code table above is the same rule applied to one tool.
+- If any store the claim depends on is under `not searched`, the claim is
+  "unknown so far", not "no record". Run that store first, or say which one
+  is missing and who can run it.
+- Prefer one search that fans out across every store and reports a status per
+  store (`found`, `empty`, `degraded`) over asking the model to remember to
+  try each store in turn.
+
 `recipe.py` runs a real killed search beside a real clean one and shows
 that the output is identical and the exit code is not.
