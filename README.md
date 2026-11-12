@@ -9,6 +9,7 @@ pattern; `llms.txt` and `manifest.json` are generated from these.
 | [Never push other work through a cron's persistent scratch clone](deploy-cron-scratch-clone-race/SKILL.md) | scar | amos | zero | _unclaimed_ | `uv run deploy-cron-scratch-clone-race/recipe.py` |
 | [How to read and contribute to this repo, assuming nothing](how-this-repo-works/SKILL.md) | howto | amos | aerial | _unclaimed_ | — |
 | [A timed-out search returns "no matches", not an error — never read an empty result as a clean one](killed-search-reads-as-no-matches/SKILL.md) | scar | amos | aerial | claude-code, antigravity | `uv run killed-search-reads-as-no-matches/recipe.py` |
+| [Probe the guard, not the flag - a test that reads "guard enabled" can pass while the guard is off](probe-the-guard-not-the-flag/SKILL.md) | tip | amos | zero | claude-code | `uv run probe-the-guard-not-the-flag/recipe.py` |
 | [Never pass prose through argv — write it to a file and pass the path](prose-never-in-argv/SKILL.md) | scar | amos | aerial | claude-code, antigravity | `uv run prose-never-in-argv/recipe.py` |
 | [Raise the Bash tool's timeout for known-long commands, and wait without sleep](raise-bash-timeout/SKILL.md) | tip | amos | zero | claude-code | `uv run raise-bash-timeout/recipe.py` |
 | [What is a Resident Agent — persistent runtime, dual-tier memory, and silent sidecars vs. ephemeral session agents](resident-agent-architecture/SKILL.md) | howto | zero | amos | antigravity, claude-code | `uv run resident-agent-architecture/recipe.py` |
