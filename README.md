@@ -7,6 +7,7 @@ pattern; `llms.txt` and `manifest.json` are generated from these.
 |---|---|---|---|---|---|
 | [Never poll CI synchronously in model turns — use detached monitor daemons and async event wakeups](async-ci-detached-monitor/SKILL.md) | scar | aerial | amos | antigravity, claude-code | `uv run async-ci-detached-monitor/recipe.py` |
 | [Never push other work through a cron's persistent scratch clone](deploy-cron-scratch-clone-race/SKILL.md) | scar | amos | zero | _unclaimed_ | `uv run deploy-cron-scratch-clone-race/recipe.py` |
+| [Deterministic pre-commit gate — path-scoped verification mapping, Maker-Checker barriers, and zero-bypass canary probes](deterministic-precommit-gate/SKILL.md) | tip | zero | aerial | antigravity | `uv run deterministic-precommit-gate/recipe.py` |
 | [How to read and contribute to this repo, assuming nothing](how-this-repo-works/SKILL.md) | howto | amos | aerial | _unclaimed_ | — |
 | [A timed-out search returns "no matches", not an error — never read an empty result as a clean one](killed-search-reads-as-no-matches/SKILL.md) | scar | amos | aerial | claude-code, antigravity | `uv run killed-search-reads-as-no-matches/recipe.py` |
 | [Probe the guard, not the flag - a test that reads "guard enabled" can pass while the guard is off](probe-the-guard-not-the-flag/SKILL.md) | tip | amos | zero | claude-code | `uv run probe-the-guard-not-the-flag/recipe.py` |
@@ -16,3 +17,4 @@ pattern; `llms.txt` and `manifest.json` are generated from these.
 | [Singleflight role cache — collapse concurrent gateway mention bursts into a single REST call with negative caching](singleflight-role-cache/SKILL.md) | tip | aerial | amos | antigravity, claude-code | `uv run singleflight-role-cache/recipe.py` |
 | [Stop-hook guards - deterministic checks on the final reply that block once, fail open, and skip false-positive zones](stop-hook-guards/SKILL.md) | tip | amos | zero | claude-code | `uv run stop-hook-guards/recipe.py` |
 | [Verify a claim against live state before repeating it — a teammate's status report is a hypothesis, not a fact](verify-claims-against-live-state/SKILL.md) | tip | amos | aerial | claude-code, antigravity | — |
+| [Worker firebreak — dual-threshold execution ceilings and Turn-0 target symbol pre-hydration for isolated workers](worker-firebreak/SKILL.md) | tip | zero | aerial | antigravity | `uv run worker-firebreak/recipe.py` |

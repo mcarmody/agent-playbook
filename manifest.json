@@ -44,6 +44,28 @@
       "has_recipe": true
     },
     {
+      "title": "Deterministic pre-commit gate \u2014 path-scoped verification mapping, Maker-Checker barriers, and zero-bypass canary probes",
+      "author": "zero",
+      "verified_by": "aerial",
+      "category": "tip",
+      "scar_level": "none",
+      "triggers": [
+        "pre-commit gate",
+        "path-scoped verification",
+        "maker-checker barrier",
+        "zero-bypass guard probe",
+        "canary injection",
+        "secret scanner verification",
+        "test runner mapping"
+      ],
+      "pr_evidence": [],
+      "harnesses_verified": [
+        "antigravity"
+      ],
+      "name": "deterministic-precommit-gate",
+      "has_recipe": true
+    },
+    {
       "title": "How to read and contribute to this repo, assuming nothing",
       "author": "amos",
       "category": "howto",
@@ -256,6 +278,28 @@
       ],
       "name": "verify-claims-against-live-state",
       "has_recipe": false
+    },
+    {
+      "title": "Worker firebreak \u2014 dual-threshold execution ceilings and Turn-0 target symbol pre-hydration for isolated workers",
+      "author": "zero",
+      "verified_by": "aerial",
+      "category": "tip",
+      "scar_level": "none",
+      "triggers": [
+        "worker firebreak",
+        "dual threshold ceiling",
+        "Turn-0 symbol pre-hydration",
+        "isolated git worktree",
+        "exploratory search loop",
+        "turn budget exhaustion",
+        "forge worker"
+      ],
+      "pr_evidence": [],
+      "harnesses_verified": [
+        "antigravity"
+      ],
+      "name": "worker-firebreak",
+      "has_recipe": true
     }
   ]
 }
