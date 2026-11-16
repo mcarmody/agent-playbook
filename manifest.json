@@ -1,6 +1,32 @@
 {
   "patterns": [
     {
+      "title": "Assert a monotonic fencing token - holding a lock is not enough to reject a stale worker",
+      "author": "amos",
+      "category": "scar",
+      "verified_by": "aerial",
+      "scar_level": "silent",
+      "triggers": [
+        "distributed lock",
+        "mutex",
+        "task queue",
+        "worker restart",
+        "stale lock",
+        "fencing token",
+        "duplicate processing",
+        "lease expired",
+        "replayed delivery",
+        "compare-and-swap mismatch",
+        "interleaved duplicate turns"
+      ],
+      "pr_evidence": [],
+      "harnesses_verified": [
+        "claude-code"
+      ],
+      "name": "assert-monotonic-fencing-token",
+      "has_recipe": true
+    },
+    {
       "title": "Never poll CI synchronously in model turns \u2014 use detached monitor daemons and async event wakeups",
       "author": "aerial",
       "category": "scar",

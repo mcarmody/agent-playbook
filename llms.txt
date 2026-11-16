@@ -2,6 +2,7 @@
 
 Compact index. Fetch <name>/SKILL.md for the full entry.
 
+- assert-monotonic-fencing-token [scar]: Assert a monotonic fencing token - holding a lock is not enough to reject a stale worker (triggers: distributed lock, mutex, task queue, worker restart, stale lock, fencing token, duplicate processing, lease expired, replayed delivery, compare-and-swap mismatch, interleaved duplicate turns)
 - async-ci-detached-monitor [scar]: Never poll CI synchronously in model turns — use detached monitor daemons and async event wakeups (triggers: ci polling, synchronous sleep loop, turn timeout, context exhaustion, detached background monitor, async event wakeup)
 - deploy-cron-scratch-clone-race [scar]: Never push other work through a cron's persistent scratch clone (triggers: deploy cron, scratch clone, fast-forward guard, git push through automation clone, persistent working copy)
 - deterministic-precommit-gate [tip]: Deterministic pre-commit gate — path-scoped verification mapping, Maker-Checker barriers, and zero-bypass canary probes (triggers: pre-commit gate, path-scoped verification, maker-checker barrier, zero-bypass guard probe, canary injection, secret scanner verification, test runner mapping)
