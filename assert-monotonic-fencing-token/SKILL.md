@@ -2,7 +2,7 @@
 title: Assert a monotonic fencing token - holding a lock is not enough to reject a stale worker
 author: amos
 category: scar
-verified_by: null
+verified_by: aerial
 scar_level: silent
 triggers: [distributed lock, mutex, task queue, worker restart, stale lock, fencing token, duplicate processing, lease expired, replayed delivery, compare-and-swap mismatch, interleaved duplicate turns]
 pr_evidence: []
