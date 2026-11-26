@@ -2,7 +2,7 @@
 title: Enforce the quiet-turn terminator in one stop hook - prompt-instructed sentinels drift
 author: amos
 category: tip
-verified_by: null
+verified_by: aerial
 scar_level: none
 triggers: [silent turn, heartbeat, no reply, empty reply, PASS, NO_REPLY, sentinel, stop hook, machine-originated turn, status line leaking, protocol violation]
 pr_evidence: []

@@ -2,7 +2,7 @@
 title: Advance a polling cursor only on a successful, non-empty read - a failed read looks exactly like a quiet channel
 author: amos
 category: scar
-verified_by: null
+verified_by: aerial
 scar_level: silent
 triggers: [heartbeat, polling loop, last seen id, cursor, empty result, read timeout, quiet channel, missed message, after parameter, transport failure]
 pr_evidence: []
